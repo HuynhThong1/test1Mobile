@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <title>Hello World</title>
+  </head>
+  <body>
+    <!-- Page 01 -->
+    <div data-role="page" id="page-01">
+      <div data-role="header" data-position="fixed"></div>
+      <div data-role="main" class="ui-content">
+        <h1>Page 01</h1>
+      </div>
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+            <li>
+              <a
+                style="width: 100%; height: 50px"
+                href="#page-01"
+                class="
+                  ui-btn-icon-notext
+                  ui-icon-home
+                  ui-nodisc-icon
+                  ui-alt-icon
+                  ui-btn-active
+                "
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                style="width: 100%; height: 50px"
+                href="#page-02"
+                class="
+                  ui-btn-icon-notext ui-icon-plus ui-nodisc-icon ui-alt-icon
+                "
+                >Create Account</a
+              >
+            </li>
+            <li>
+              <a
+                style="width: 100%; height: 50px"
+                href="#page-03"
+                class="
+                  ui-btn-icon-notext ui-icon-info ui-nodisc-icon ui-alt-icon
+                "
+                >About</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page 02 -->
+    <div data-role="page" id="page-02">
+      <div data-role="header" data-position="fixed"></div>
+      <div data-role="main" class="ui-content">
+        <h1>CREATE AN ACCOUNT</h1>
+        <form id="frm-register">
+          <input type="text" placeholder="Username" id="username" />
+          <input type="password" placeholder="Password" id="password" />
+          <input
+            type="password"
+            placeholder="Password confirm"
+            id="password-confirm"
+          />
+
+          <button type="submit">Create Account</button>
+        </form>
+
+        <div id="list">
+
+
+        </div>
+      </div>
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+            <li>
+              <a
+                style="width: 100%; height: 50px"
+                href="#page-01"
+                class="
+                  ui-btn-icon-notext ui-icon-home ui-nodisc-icon ui-alt-icon
+                "
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                style="width: 100%; height: 50px"
+                href="#page-02"
+                class="
+                  ui-btn-icon-notext
+                  ui-icon-plus
+                  ui-nodisc-icon
+                  ui-alt-icon
+                  ui-btn-active
+                "
+                >Create Account</a
+              >
+            </li>
+            <li>
+              <a
+                style="width: 100%; height: 50px"
+                href="#page-03"
+                class="
+                  ui-btn-icon-notext ui-icon-info ui-nodisc-icon ui-alt-icon
+                "
+                >About</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page 03 -->
+    <div data-role="page" id="page-03">
+      <div data-role="header" data-position="fixed"></div>
+      <div data-role="main" class="ui-content">
+        <h1>Page 03</h1>
+      </div>
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+            <li>
+              <a
+                style="width: 100%; height: 50px"
+                href="#page-01"
+                class="
+                  ui-btn-icon-notext ui-icon-home ui-nodisc-icon ui-alt-icon
+                "
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                style="width: 100%; height: 50px"
+                href="#page-02"
+                class="
+                  ui-btn-icon-notext ui-icon-plus ui-nodisc-icon ui-alt-icon
+                "
+                >Create Account</a
+              >
+            </li>
+            <li>
+              <a
+                style="width: 100%; height: 50px"
+                href="#page-03"
+                class="
+                  ui-btn-icon-notext
+                  ui-icon-info
+                  ui-nodisc-icon
+                  ui-alt-icon
+                  ui-btn-active
+                "
+                >About</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="cordova.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>
