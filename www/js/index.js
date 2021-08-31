@@ -114,10 +114,66 @@ function refreshList() {
 
 //vclick on both
 $(document).on('vclick', '#list-account li a', function (e) {
+    e.preventDefault();
     var id = $(this).data('details').Id;
 
     localStorage.setItem('currentAccountId', id);
-})
+
+    $.mobile.navigate('#page-05');
+});
+
+
+$(document).on('pagebeforeshow', '#page-05', showDetail);
+
+
+function showDetail() {
+    var id = localStorage.getItem('currentAccountId');
+
+    db.transaction(function (tx) {
+        var query = 'SELECT * FROM Account WHERE Id = ?';
+        tx.executeSql(query, [id], transactionSuccess, transactionError);
+
+        function transactionSuccess(tx, result) {
+            var error = 'Account not found.';
+            var username = error;
+            var password = error;
+
+            if(result.rows[0] != null ){
+                username = result.rows[0].Username;
+                password = result.rows[0].Password;
+            }else{
+                console.log(error)
+            }
+
+            $('#page-05 #id').text(id);
+            $('#page-05 #username').text(username);
+            $('#page-05 #password').text(password);
+
+        }
+    });
+}
+
+$(document).on('vclick', '#page-05 #btn-delete', deleteAccount);
+
+function deleteAccount() {
+
+    var id = localStorage.getItem('currentAccountId');
+
+    db.transaction(function (tx) {
+        var query = 'DELETE FROM Account WHERE Id = ?';
+        tx.executeSql(query, [id], transactionSuccess, transactionError);
+
+        function transactionSuccess(tx, result) {
+            console.log(`Delete Successfully Account with ${id}`)
+
+            $.mobile.navigate('#page-03');
+
+        }
+    });
+}
+
+
+//CRUD: CREATE READ DELETE - NOT YET UPDATE
 
 
 
