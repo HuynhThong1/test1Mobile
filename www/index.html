@@ -18,9 +18,10 @@
     under the License.
 -->
 <html>
-    <head>
-        <meta charset="utf-8">
-        <!--
+
+<head>
+    <meta charset="utf-8">
+    <!--
         Customize this policy to fit your own app's needs. For more guidance, see:
             https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
         Some notes:
@@ -29,35 +30,84 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-        <meta name="color-scheme" content="light dark">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <meta name="color-scheme" content="light dark">
 
-        <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
 
-        <link rel="stylesheet" href="css/index.css">
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div data-role="page">
-            <div data-role="main" class="ui-content">
-                <button id="btn-js-alert">JS Alert</button>
-                <button id="btn-cordova-alert">Cordova Alert</button>
-                <button id="btn-cordova-confirm">Cordova Confirm</button>
-                <button id="btn-cordova-prompt">Cordova Prompt</button>
-                <button id="btn-cordova-beep">Cordova Beep</button>
-                <button id="btn-cordova-vibration">Cordova Vibration</button>
-            
-                <button id="btn-take-picture">Take Picture</button>
+    <link rel="stylesheet" href="css/index.css">
+    <title>Hello World</title>
+</head>
 
-                <img src="" alt="picture-from-camera" id="img-test" width="50%"/>
+<body>
+    <div data-role="page" id="page-home">
+        <div data-role="header" data-position="fixed">
+
+        </div>
+
+        <div data-role="main" class="ui-content">
+            <button id="btn-js-alert">JS Alert</button>
+            <button id="btn-cordova-alert">Cordova Alert</button>
+            <button id="btn-cordova-confirm">Cordova Confirm</button>
+            <button id="btn-cordova-prompt">Cordova Prompt</button>
+            <button id="btn-cordova-beep">Cordova Beep</button>
+            <button id="btn-cordova-vibration">Cordova Vibration</button>
+
+            <button id="btn-take-picture">Take Picture</button>
+
+            <img src="" alt="picture-from-camera" id="img-test" width="50%" />
+        </div>
+
+
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li>
+                        <a href="#page-home">Home</a>
+                    </li>
+                    <li>
+                        <a href="#page-gallery">Gallery</a>
+                    </li>
+                </ul>
             </div>
         </div>
-        <script src="cordova.js"></script>
-        <script src="js/jquery.js"></script>
-        <script src="js/jquery.mobile-1.4.5.min.js"></script>
-        <script src="js/index.js"></script>
-    </body>
+    </div>
+
+    <div data-role="page" id="page-gallery">
+        <div data-role="header" data-position="fixed">
+
+        </div>
+
+        <div data-role="main" class="ui-content">
+            <div id="gallery">
+
+            </div>
+        </div>
+
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li>
+                        <a href="#page-home">Home</a>
+                    </li>
+                    <li>
+                        <a href="#page-gallery">Gallery</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="cordova.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
 </html>

@@ -1,6 +1,46 @@
-document.addEventListener('deviceready', onDeviceReady, false);
+var db = window.openDatabase('Plugin', '1.0', 'Plugin', 20000);
 
-function onDeviceReady() { }
+// To detect whether users open applications on mobile phones or browsers.
+if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+    $(document).on('deviceready', onDeviceReady);
+}
+else {
+
+    $(document).on('ready', onDeviceReady);
+}
+
+// Display messages in the console.
+function log(message) {
+    console.log(`[${new Date()}] ${message}`);
+}
+
+// Display errors when executing SQL queries.
+function transactionError(tx, error) {
+    log(`Errors when executing SQL query. [Code: ${error.code}] [Message: ${error.message}]`);
+}
+
+// Run this function after starting the application.
+function onDeviceReady() {
+    // Logging.
+    log(`Device is ready.`);
+
+    db.transaction(function (tx) {
+        // Create a query.
+
+        //phải có foreign key khi có image table trong bài của mình
+        var query = `CREATE TABLE IF NOT EXISTS Image (Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                                       Image BLOB)`;
+
+        // Execute a query.
+        tx.executeSql(query, [], transactionSuccess, transactionError);
+
+        function transactionSuccess(tx, result) {
+            // Logging.
+            log(`Create table 'Image' successfully.`);
+        }
+
+    });
+}
 
 
 window.addEventListener("batterystatus", onBatteryStatus, false);
@@ -85,7 +125,7 @@ function cordovaPrompt() {
             if (result.input1 == 'delete confirm') {
                 alert('This object is deleted. ');
             }
-            else{
+            else {
                 alert('This object is NOT deleted.')
             }
         } else if (result.buttonIndex === 2) {
@@ -94,20 +134,20 @@ function cordovaPrompt() {
     }
 }
 
-function cordovaBeep() { 
+function cordovaBeep() {
     navigator.notification.beep(2);
 }
 
-function cordovaVibration() { 
+function cordovaVibration() {
     navigator.vibrate(1000, 1000, 3000, 3000, 3000, 1000, 1000, 1000)
 }
 
 
 
-$(document).on('vclick', '#btn-take-picture', takeQRCode);
+$(document).on('vclick', '#btn-take-picture', takePicture);
 
 
-function takePicture(){
+function takePicture() {
 
     let cameraOptions = {
         destinationType: Camera.DestinationType.DATA_URL,
@@ -117,13 +157,18 @@ function takePicture(){
     navigator.camera.getPicture(cameraSuccess, cameraError, cameraOptions);
 
 
-    function cameraSuccess(imageData){
-        alert(imageData);
+    function cameraSuccess(imageData) {
+        db.transaction(function (tx) {
+            var query = 'INSERT INTO Image (Image) VALUES (?)';
+            tx.executeSql(query, [imageData], transactionSuccess, transactionError);
 
-        $('#img-test').attr('src', "data:image/jpeg;base64," + imageData)
+            function transactionSuccess(tx, result) {
+                alert('Successfully stored in database');
+            }
+        });
     }
 
-    function cameraError(error){
+    function cameraError(error) {
         alert(error)
     }
 
@@ -132,15 +177,35 @@ function takePicture(){
 
 }
 
-function takeQRCode(){
+$(document).on('pagebeforeshow', '#page-gallery', listImage)
+
+function listImage() {
+    db.transaction(function (tx) {
+        var query = 'SELECT * FROM Image';
+        tx.executeSql(query, [], transactionSuccess, transactionError);
+
+        function transactionSuccess(tx, result) {
+            $('#page-gallery #gallery').empty()
+
+            for (let image of result.rows) {
+                $('#page-gallery #gallery').append(`<img src='data:image/jpeg;base64,${image.Image}' width='50%'>`)
+            }
+        }
+    });
+}
+
+
+
+function takeQRCode() {
     cordova.plugins.barcodeScanner.scan(successCallback, errorCallback);
 
-    function successCallback(result){
+    function successCallback(result) {
         alert(`Text: ${result.text}
                Type: ${result.format}`);
     }
 
-    function errorCallback(error){
+    function errorCallback(error) {
         alert(error);
     }
 }
+
