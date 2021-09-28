@@ -1,4 +1,4 @@
-var db = window.openDatabase('Plugin', '1.0', 'Plugin', 20000);
+var db = window.openDatabase('Plugin1', '1.0', 'Plugin1', 20000);
 
 // To detect whether users open applications on mobile phones or browsers.
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
