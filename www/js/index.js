@@ -18,7 +18,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
     $(document).on('deviceready', onDeviceReady);
 }
 else {
-    onDeviceReady();
+    $(document).on('ready', onDeviceReady);
 }
 
 // Display messages in the console.
@@ -35,6 +35,8 @@ function transactionError(tx, error) {
 function onDeviceReady() {
     // Logging.
     log(`Device is ready.`);
+
+
 
     db.transaction(function (tx) {
         // Create a query.
@@ -62,6 +64,53 @@ function onDeviceReady() {
 
             // Logging.
             log(`Create table 'Comment' successfully.`);
+        }
+    });
+
+    prepareDatabase(db);
+}
+
+$(document).on('pagebeforeshow', '#page-create', function () {
+    importAddress('#page-create #frm-register', 'City');
+    importAddress('#page-create #frm-register', 'District', 'City');
+    importAddress('#page-create #frm-register', 'Ward', 'District');
+});
+
+$(document).on('change', '#page-create #frm-register #city', function () {
+    importAddress('#page-create #frm-register', 'District', 'City');
+    importAddress('#page-create #frm-register', 'Ward', 'District');
+
+});
+
+$(document).on('change', '#page-create #frm-register #district', function () {
+    importAddress('#page-create #frm-register', 'Ward', 'District');
+});
+
+
+function importAddress(from, name, parentName = '', selectedId = -1) {
+    var lowerName = name.toLowerCase();
+
+    // var selectedName = $('#page-create #frm-register #city option:selected').text();
+    var id, condition = ''
+    if (parentName) {
+        id = $(`${from} #${parentName.toLowerCase()}`).val();
+        condition = `WHERE ${parentName}Id = ${id}`;
+    }
+
+    db.transaction(function (tx) {
+        var query = `SELECT * FROM ${name} ${condition} ORDER BY Name`;
+        tx.executeSql(query, [], transactionSuccess, transactionError);
+
+        function transactionSuccess(tx, result) {
+
+            var optionList = `<option value="-1">Select ${name}</option>`;
+            for (let item of result.rows) {
+                optionList += `<option value="${item.Id}" ${item.Id === selectedId ? 'selected' : ''}> ${item.Name}</option>`;
+            }
+
+            $(`${from} #${lowerName}`).html(optionList)
+            $(`${from} #${lowerName}`).selectmenu('refresh', true);
+
         }
     });
 }
@@ -148,16 +197,16 @@ function showList() {
             log(`Show list of accounts successfully.`);
 
             // Prepare the list of accounts.
-            var listAccount = `<ul id='list-account' data-role='listview' data-filter='true' data-filter-placeholder='Search accounts...'
-                                                     data-corners='false' class='ui-nodisc-icon ui-alt-icon'>`;
+            var listAccount = `< ul id = 'list-account' data - role='listview' data - filter='true' data - filter - placeholder='Search accounts...'
+        data - corners='false' class='ui-nodisc-icon ui-alt-icon' > `;
             for (let account of result.rows) {
-                listAccount += `<li><a data-details='{"Id" : ${account.Id}}'>
-                                    <img src='img/boyscout_logo.jpg'>
-                                    <h3>Username: ${account.Username}</h3>
-                                    <p>ID: ${account.Id}</p>
-                                </a></li>`;
+                listAccount += `< li > <a data-details='{"Id" : ${account.Id}}'>
+                <img src='img/boyscout_logo.jpg'>
+                <h3>Username: ${account.Username}</h3>
+                <p>ID: ${account.Id}</p>
+            </a></ > `;
             }
-            listAccount += `</ul>`;
+            listAccount += `</ > `;
 
             // Add list to UI.
             $('#page-list #list-account').empty().append(listAccount).listview('refresh').trigger('create');
@@ -342,14 +391,14 @@ function showComment() {
 
             log(`show list of comments successfully.`);
 
-            var listComment = `<ul id='list-comment' data-role='listview'`;
+            var listComment = `< ul id = 'list-comment' data - role='listview'`;
             for (let comment of result.rows) {
-                listComment += `<li>
+                listComment += `< li >
                                     <h3>${comment.Comment}</h3>
                                     <p>${comment.Datetime}</p>
-                                </li>`;
+                                </ > `;
             }
-            listComment += `</ul>`;
+            listComment += `</ul > `;
 
             // Add list to UI.
             $('#list-comment').empty().append(listComment).listview('refresh').trigger('create');
@@ -371,7 +420,7 @@ function search(e) {
         var query = `SELECT Id, Username FROM Account WHERE`;
 
         if (id) {
-            query += ` Id > ${id}   AND`;
+            query += ` Id > ${id} AND`;
         }
 
         if (username) {
@@ -386,15 +435,15 @@ function search(e) {
             log(`Show list of accounts successfully.`);
 
             // Prepare the list of accounts.
-            var listAccount = `<ul id='list-account' data-role='listview' class='ui-nodisc-icon ui-alt-icon'>`;
+            var listAccount = `< ul id = 'list-account' data - role='listview' class='ui-nodisc-icon ui-alt-icon' > `;
             for (let account of result.rows) {
-                listAccount += `<li><a data-details='{"Id" : ${account.Id}}'>
-                                    <img src='img/boyscout_logo.jpg'>
-                                    <h3>Username: ${account.Username}</h3>
-                                    <p>ID: ${account.Id}</p>
-                                </a></li>`;
+                listAccount += `< li > <a data-details='{"Id" : ${account.Id}}'>
+                <img src='img/boyscout_logo.jpg'>
+                <h3>Username: ${account.Username}</h3>
+                <p>ID: ${account.Id}</p>
+            </a></ > `;
             }
-            listAccount += `</ul>`;
+            listAccount += `</ > `;
 
             // Add list to UI.
             $('#page-search #list-account').empty().append(listAccount).listview('refresh').trigger('create');
